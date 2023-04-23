@@ -26,19 +26,13 @@ class GameSprite(sprite.Sprite):
 
 # класс главного игрока
 class Player(GameSprite):
-    def update_r(self):
+    # метод для управления спрайтом стрелками клавиатуры
+    def update(self):
         keys = key.get_pressed()
-        if keys[K_UP] and self.rect.y > 5:
-            self.rect.y -= self.speed
-        if keys[K_DOWN] and self.rect.y < win_height - 80:
-            self.rect.y += self.speed
-
-    def update_l(self):
-        keys = key.get_pressed()
-        if keys[K_w] and self.rect.y > 5:
-            self.rect.y -= self.speed
-        if keys[K_s] and self.rect.y < win_height - 80:
-            self.rect.y += self.speed
+        if keys[K_LEFT] and self.rect.x > 5:
+            self.rect.x -= self.speed
+        if keys[K_RIGHT] and self.rect.x < win_width - 80:
+            self.rect.x += self.speed
 
 
 # Игровая сцена:
@@ -46,12 +40,6 @@ back = (200, 255, 255)  # цвет фона (background)
 win_width = 600
 win_height = 500
 window = display.set_mode((win_width, win_height))
-window.fill(back)
-
-# создания мяча и ракетки
-racket1 = Player('racket.png', 30, 200, 4, 50, 150)  # при создании спрайта добавляется еще два параметра
-racket2 = Player('racket.png', 520, 200, 4, 50, 150)
-ball = GameSprite('tenis_ball.png', 200, 200, 4, 50, 50)
 
 # флаги отвечающие за состояние игры
 game = True
@@ -65,12 +53,6 @@ while game:
             game = False
     if not finish:
         window.fill(back)
-        racket1.update_l()
-        racket2.update_r()
-
-        racket1.reset()
-        racket2.reset()
-        ball.reset()
 
     display.update()
     clock.tick(FPS)
