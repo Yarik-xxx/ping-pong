@@ -37,6 +37,31 @@ class Player(GameSprite):
             self.rect.y -= self.speed
         if keys[K_s] and self.rect.y < win_height - 80:
             self.rect.y += self.speed
+            
+
+class Ball(GameSprite):
+    speed_x = 4
+    speed_y = 4
+    
+    def update(self):
+        global finish
+        ball.rect.y += self.speed_y
+        ball.rect.x += self.speed_x
+        
+        if ball.rect.y < 0 or ball.rect.y > win_height - 50:
+            self.speed_y *= -1
+
+        if sprite.collide_rect(ball, racket1) or sprite.collide_rect(ball, racket2):
+            self.speed_x *= -1
+
+        if ball.rect.x < 0:
+            window.blit(lose1, (200, 200))
+            finish = True
+
+        if ball.rect.x > win_width - 50:
+            window.blit(lose2, (200, 200))
+            finish = True
+        
 
 
 # Игровая сцена:
@@ -62,32 +87,12 @@ finish = False
 clock = time.Clock()
 FPS = 60
 
-speed_x = 4
-speed_y = 4
-
 while game:
     for e in event.get():
         if e.type == QUIT:
             game = False
     if not finish:
         window.fill(back)
-
-        ball.rect.y += speed_y
-        ball.rect.x += speed_x
-
-        if ball.rect.y < 0 or ball.rect.y > win_height - 50:
-            speed_y *= -1
-
-        if sprite.collide_rect(ball, racket1) or sprite.collide_rect(ball, racket2):
-            speed_x *= -1
-
-        if ball.rect.x < 0:
-            window.blit(lose1, (200, 200))
-            finish = True
-
-        if ball.rect.x > win_width - 50:
-            window.blit(lose2, (200, 200))
-            finish = True
 
         racket1.update_l()
         racket2.update_r()
