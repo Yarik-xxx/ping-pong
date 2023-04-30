@@ -37,17 +37,17 @@ class Player(GameSprite):
             self.rect.y -= self.speed
         if keys[K_s] and self.rect.y < win_height - 80:
             self.rect.y += self.speed
-            
+
 
 class Ball(GameSprite):
     speed_x = 4
     speed_y = 4
-    
+
     def update(self):
         global finish
         ball.rect.y += self.speed_y
         ball.rect.x += self.speed_x
-        
+
         if ball.rect.y < 0 or ball.rect.y > win_height - 50:
             self.speed_y *= -1
 
@@ -61,7 +61,6 @@ class Ball(GameSprite):
         if ball.rect.x > win_width - 50:
             window.blit(lose2, (200, 200))
             finish = True
-        
 
 
 # Игровая сцена:
@@ -74,7 +73,7 @@ window.fill(back)
 # создания мяча и ракетки
 racket1 = Player('racket.png', 30, 200, 4, 50, 150)  # при создании спрайта добавляется еще два параметра
 racket2 = Player('racket.png', 520, 200, 4, 50, 150)
-ball = GameSprite('tenis_ball.png', 200, 200, 4, 50, 50)
+ball = Ball('tenis_ball.png', 200, 200, 4, 50, 50)
 
 font.init()
 font1 = font.Font(None, 35)
@@ -94,6 +93,7 @@ while game:
     if not finish:
         window.fill(back)
 
+        ball.update()
         racket1.update_l()
         racket2.update_r()
 
